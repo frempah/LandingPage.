@@ -129,37 +129,7 @@
   .stack-tag { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .1em; color: var(--text-muted); border: 1px solid rgba(255,255,255,.08); padding: .25rem .6rem; text-transform: uppercase; }
   .live-badge { display: inline-block; margin-top: 1rem; font-family: var(--font-mono); font-size: .6rem; letter-spacing: .15em; text-transform: uppercase; padding: .3rem .8rem; }
 
-  /* GARAGE */
-  #garage { background: var(--black); }
-  .garage-intro { font-size: 1.1rem; line-height: 1.8; color: var(--off-white); font-weight: 300; max-width: 700px; margin-bottom: 3rem; }
-  .garage-tabs { display: flex; margin-bottom: 3rem; border: 1px solid rgba(184,137,42,.2); overflow: hidden; width: fit-content; }
-  .garage-tab { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; padding: .8rem 1.6rem; background: transparent; color: var(--text-muted); border: none; cursor: pointer; border-right: 1px solid rgba(184,137,42,.15); transition: background .3s, color .3s; }
-  .garage-tab:last-child { border-right: none; }
-  .garage-tab.active, .garage-tab:hover { background: var(--gold); color: var(--black); }
-  .garage-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
-  .car-card { background: var(--panel); border: 1px solid rgba(255,255,255,.05); overflow: hidden; transition: transform .3s, border-color .3s; }
-  .car-card:hover { transform: translateY(-6px); border-color: rgba(184,137,42,.3); }
-  .car-visual { height: 170px; display: flex; align-items: center; justify-content: center; font-size: 5rem; position: relative; }
-  .car-badge { position: absolute; top: .8rem; left: .8rem; font-family: var(--font-mono); font-size: .58rem; letter-spacing: .18em; text-transform: uppercase; padding: .3rem .7rem; }
-  .car-badge.forsale { background: rgba(0,92,45,.8); color: var(--rrg-glow); border: 1px solid var(--rrg); }
-  .car-badge.forhire { background: rgba(184,137,42,.15); color: var(--gold); border: 1px solid rgba(184,137,42,.4); }
-  .car-badge.dream { background: rgba(184,137,42,.1); color: var(--gold); border: 1px solid rgba(184,137,42,.3); }
-  .car-price { position: absolute; bottom: .8rem; right: 1rem; font-family: var(--font-display); font-size: 1.4rem; color: var(--white); }
-  .car-body { padding: 1.4rem 1.6rem 1.8rem; }
-  .car-make { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: .3rem; }
-  .car-name { font-family: var(--font-display); font-size: 1.5rem; color: var(--white); margin-bottom: .8rem; }
-  .car-specs { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: .8rem; }
-  .car-spec { font-family: var(--font-mono); font-size: .6rem; color: var(--text-muted); }
-  .car-desc { font-size: .9rem; line-height: 1.65; color: var(--off-white); font-weight: 300; margin-bottom: 1.2rem; }
-  .car-cta { display: block; width: 100%; font-family: var(--font-mono); font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; padding: .8rem; text-align: center; text-decoration: none; transition: background .3s; }
-  .car-cta.buy { background: rgba(0,61,31,.4); color: var(--rrg-glow); border: 1px solid var(--rrg); }
-  .car-cta.buy:hover { background: var(--rrg); }
-  .car-cta.hire { background: rgba(184,137,42,.1); color: var(--gold); border: 1px solid rgba(184,137,42,.3); }
-  .car-cta.hire:hover { background: rgba(184,137,42,.22); }
-  .car-cta.soon { background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,.07); }
-  .garage-partner { margin-top: 3rem; padding: 2.5rem; background: var(--panel); border: 1px solid rgba(184,137,42,.15); display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
-  .garage-partner h3 { font-family: var(--font-display); font-size: 1.6rem; color: var(--white); margin-bottom: .3rem; }
-  .garage-partner p { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em; color: var(--text-muted); }
+ 
 
   /* EXPERIENCE */
   #experience { background: var(--deep); }
@@ -242,7 +212,6 @@
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#garage">Garage</a></li>
     <li><a href="#experience">Journey</a></li>
     <li><a href="services.html">Services</a></li>
     <li><a href="blog.html">Blog</a></li>
@@ -396,49 +365,7 @@
 
 <div class="section-divider"></div>
 
-<!-- GARAGE -->
-<section id="garage">
-  <div class="section-label">04 — The Garage</div>
-  <h2 class="section-title">CARS FOR<br><em>SALE & HIRE</em></h2>
-  <p class="garage-intro">Beyond code, automobiles are my second language. I know engines, specs, and what makes a car worth every pesewa. Browse the current garage — available for outright purchase or daily hire. Serious enquiries only.</p>
-  <div class="garage-tabs">
-    <button class="garage-tab active" onclick="filterCars('all',this)">All Cars</button>
-    <button class="garage-tab" onclick="filterCars('forsale',this)">For Sale</button>
-    <button class="garage-tab" onclick="filterCars('forhire',this)">For Hire</button>
-  </div>
-  <div class="garage-grid">
-    <div class="car-card" data-status="forhire">
-      <div class="car-visual" style="background:linear-gradient(145deg,#0a1a0f,#003d1f)">🚙<span class="car-badge forhire">For Hire</span><span class="car-price">GH₵400/day</span></div>
-      <div class="car-body"><div class="car-make">Toyota · 2019</div><div class="car-name">Land Cruiser Prado</div><div class="car-specs"><span class="car-spec">⚙️ Auto</span><span class="car-spec">⛽ Petrol</span><span class="car-spec">🪑 7 Seats</span><span class="car-spec">📍 Accra</span></div><p class="car-desc">Clean, well-maintained Prado. Perfect for business travel, long trips, or events. Driver available on request.</p><a href="#contact" class="car-cta hire">Enquire to Hire</a></div>
-    </div>
-    <div class="car-card" data-status="forsale">
-      <div class="car-visual" style="background:linear-gradient(145deg,#1a1000,#2d1e00)">🚗<span class="car-badge forsale">For Sale</span><span class="car-price">GH₵85K</span></div>
-      <div class="car-body"><div class="car-make">Honda · 2017</div><div class="car-name">Accord Sport</div><div class="car-specs"><span class="car-spec">⚙️ Auto</span><span class="car-spec">⛽ Petrol</span><span class="car-spec">🪑 5 Seats</span><span class="car-spec">📍 Accra</span></div><p class="car-desc">Immaculate condition. Full leather interior, factory sound system, one-owner. Accident-free. Open to offers.</p><a href="#contact" class="car-cta buy">Enquire to Buy</a></div>
-    </div>
-    <div class="car-card" data-status="forhire">
-      <div class="car-visual" style="background:linear-gradient(145deg,#0d0d1a,#1a1a30)">🚐<span class="car-badge forhire">For Hire</span><span class="car-price">GH₵600/day</span></div>
-      <div class="car-body"><div class="car-make">Toyota · 2020</div><div class="car-name">HiAce Minibus</div><div class="car-specs"><span class="car-spec">⚙️ Manual</span><span class="car-spec">⛽ Diesel</span><span class="car-spec">🪑 14 Seats</span><span class="car-spec">📍 Accra</span></div><p class="car-desc">Ideal for corporate shuttles, church groups, and airport transfers. Air-conditioned. Driver included.</p><a href="#contact" class="car-cta hire">Enquire to Hire</a></div>
-    </div>
-    <div class="car-card" data-status="forsale">
-      <div class="car-visual" style="background:linear-gradient(145deg,#100a00,#1e1400)">🏎️<span class="car-badge forsale">For Sale</span><span class="car-price">GH₵120K</span></div>
-      <div class="car-body"><div class="car-make">Hyundai · 2021</div><div class="car-name">Tucson AWD</div><div class="car-specs"><span class="car-spec">⚙️ Auto</span><span class="car-spec">⛽ Petrol</span><span class="car-spec">🪑 5 Seats</span><span class="car-spec">📍 Accra</span></div><p class="car-desc">Top-spec with panoramic sunroof, lane-keep assist, heated seats. Barely used — like new off the floor.</p><a href="#contact" class="car-cta buy">Enquire to Buy</a></div>
-    </div>
-    <div class="car-card" data-status="forhire">
-      <div class="car-visual" style="background:linear-gradient(145deg,#001a0a,#003020)">🚙<span class="car-badge forhire">For Hire</span><span class="car-price">GH₵250/day</span></div>
-      <div class="car-body"><div class="car-make">Nissan · 2018</div><div class="car-name">X-Trail</div><div class="car-specs"><span class="car-spec">⚙️ Auto</span><span class="car-spec">⛽ Petrol</span><span class="car-spec">🪑 7 Seats</span><span class="car-spec">📍 Accra</span></div><p class="car-desc">Versatile SUV for city drives and getaways. Self-drive available with deposit. Full tank on pickup.</p><a href="#contact" class="car-cta hire">Enquire to Hire</a></div>
-    </div>
-    <div class="car-card" data-status="dream" style="border-color:rgba(184,137,42,.25)">
-      <div class="car-visual" style="background:linear-gradient(145deg,#001a0e,#003d1f)">👑<span class="car-badge dream">Dream Car</span><span class="car-price" style="color:var(--gold)">One Day</span></div>
-      <div class="car-body"><div class="car-make" style="color:var(--gold)">Land Rover · Future</div><div class="car-name" style="color:var(--gold)">Range Rover Autobiography</div><div class="car-specs"><span class="car-spec">⚙️ Auto</span><span class="car-spec">🔋 Hybrid</span><span class="car-spec">👑 Full Spec</span></div><p class="car-desc">Every line of code written, every project shipped, every client landed — it all drives toward this seat.</p><a href="#" class="car-cta soon">Coming Soon 🚗</a></div>
-    </div>
-  </div>
-  <div class="garage-partner">
-    <div><h3>Got a Car to List?</h3><p>Partner with FrempahBrand · Reach serious buyers & hirers · Commission-based listing</p></div>
-    <a href="#contact" class="btn-primary">List Your Vehicle</a>
-  </div>
-</section>
 
-<div class="section-divider"></div>
 
 <!-- EXPERIENCE -->
 <section id="experience">
@@ -567,6 +494,3 @@
     });
   }
 
-  // Garage filter
-  function filterCars(status, btn) {
-    document.querySelectorAll('.garage-tab').forEach(b => b.classList.re
