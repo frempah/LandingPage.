@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FrempahBrand — Dev Log & Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --black: #080808; --deep: #0d0d0d; --panel: #111111; --panel2: #161616;
+  --rrg: #003d1f; --rrg-bright: #005c2d; --rrg-glow: #007a3d;
+  --gold: #b8892a; --gold-bright: #d4a843; --chrome: #c0c0c0; --chrome-dim: #888;
+  --white: #f0ede8; --off-white: #c8c4be; --text-muted: #6a6a6a;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:var(--font-serif);overflow-x:hidden;cursor:none;}
+.cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:difference;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold-bright);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;opacity:.7;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--black);}::-webkit-scrollbar-thumb{background:var(--rrg);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 4rem;background:rgba(8,8,8,.97);border-bottom:1px solid rgba(184,137,42,.1);}
+.nav-logo{font-family:var(--font-display);font-size:1.6rem;letter-spacing:.12em;color:var(--white);text-decoration:none;}
+.nav-logo span{color:var(--gold);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--chrome-dim);text-decoration:none;transition:color .3s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%;}
+.nav-badge{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;color:var(--rrg-glow);border:1px solid var(--rrg);padding:.3rem .8rem;border-radius:2px;}
+
+/* BLOG HERO */
+.blog-hero{padding:9rem 4rem 5rem;position:relative;overflow:hidden;}
+.blog-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 80% 50%,rgba(0,61,31,.2) 0%,transparent 70%),linear-gradient(180deg,#080808 0%,#0a0f0c 100%);}
+.blog-hero-grid{position:absolute;inset:0;opacity:.04;background-image:linear-gradient(rgba(184,137,42,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(184,137,42,.6) 1px,transparent 1px);background-size:80px 80px;}
+.blog-hero-watermark{position:absolute;right:2%;top:50%;transform:translateY(-50%);font-family:var(--font-display);font-size:22vw;color:rgba(0,92,45,.04);user-select:none;line-height:1;letter-spacing:-.02em;animation:breathe 8s ease-in-out infinite;}
+@keyframes breathe{0%,100%{opacity:.04}50%{opacity:.07}}
+.blog-hero-content{position:relative;z-index:2;}
+.blog-eyebrow{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem;}
+.blog-eyebrow::before{content:'';display:block;width:40px;height:1px;background:var(--gold);}
+.blog-title{font-family:var(--font-display);font-size:clamp(4rem,9vw,10rem);line-height:.9;letter-spacing:.01em;color:var(--white);margin-bottom:.8rem;}
+.blog-title em{color:var(--rrg-glow);font-style:normal;}
+.blog-subtitle{font-family:var(--font-serif);font-size:1.25rem;font-style:italic;font-weight:300;color:var(--off-white);max-width:600px;line-height:1.6;margin-bottom:2.5rem;}
+.blog-filters{display:flex;gap:.5rem;flex-wrap:wrap;}
+.filter-btn{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;padding:.55rem 1.2rem;background:transparent;color:var(--text-muted);border:1px solid rgba(255,255,255,.08);cursor:none;transition:all .3s;}
+.filter-btn.active,.filter-btn:hover{background:var(--rrg);color:var(--white);border-color:var(--rrg);}
+.filter-btn[data-tag="milestone"].active{background:var(--gold);border-color:var(--gold);color:var(--black);}
+.filter-btn[data-tag="tutorial"].active{background:#1a3a5c;border-color:#2a5a8c;color:var(--white);}
+.filter-btn[data-tag="opinion"].active{background:#3a1a1a;border-color:#6a2a2a;color:var(--white);}
+
+/* MAIN LAYOUT */
+.blog-layout{display:grid;grid-template-columns:1fr 340px;gap:4rem;padding:4rem;align-items:start;max-width:1400px;margin:0 auto;}
+
+/* POSTS */
+.posts-area{}
+.section-label{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:1rem;margin-bottom:2rem;}
+.section-label::after{content:'';flex:0 0 30px;height:1px;background:var(--gold);}
+
+/* FEATURED POST */
+.featured-post{background:var(--panel);border:1px solid rgba(184,137,42,.2);margin-bottom:2rem;display:grid;grid-template-columns:1fr 1.2fr;overflow:hidden;transition:border-color .3s,transform .3s;cursor:none;}
+.featured-post:hover{border-color:rgba(184,137,42,.5);transform:translateY(-4px);}
+.featured-thumb{background:linear-gradient(135deg,var(--rrg) 0%,#001a0e 100%);display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative;min-height:280px;}
+.featured-label{position:absolute;top:1rem;left:1rem;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;background:var(--gold);color:var(--black);padding:.3rem .7rem;text-transform:uppercase;}
+.featured-body{padding:2.5rem;}
+.post-meta{display:flex;align-items:center;gap:1rem;margin-bottom:.8rem;flex-wrap:wrap;}
+.post-tag{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;padding:.25rem .6rem;border-radius:2px;}
+.post-tag.devlog{background:rgba(0,92,45,.2);color:var(--rrg-glow);border:1px solid rgba(0,92,45,.3);}
+.post-tag.tutorial{background:rgba(26,58,92,.3);color:#5a9fd4;border:1px solid rgba(42,90,140,.3);}
+.post-tag.opinion{background:rgba(58,26,26,.3);color:#d45a5a;border:1px solid rgba(106,42,42,.3);}
+.post-tag.milestone{background:rgba(184,137,42,.15);color:var(--gold);border:1px solid rgba(184,137,42,.3);}
+.post-tag.career{background:rgba(60,0,92,.3);color:#b06ad4;border:1px solid rgba(90,0,140,.3);}
+.post-date{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.12em;color:var(--text-muted);}
+.post-read-time{font-family:var(--font-mono);font-size:.6rem;color:var(--text-muted);}
+.featured-body h2{font-family:var(--font-display);font-size:1.9rem;color:var(--white);line-height:1.1;margin-bottom:.8rem;letter-spacing:.02em;}
+.featured-body p{font-size:.98rem;line-height:1.75;color:var(--off-white);font-weight:300;margin-bottom:1.2rem;}
+.read-more{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:gap .3s,color .3s;}
+.read-more:hover{gap:.8rem;color:var(--gold-bright);}
+.read-more::after{content:'→';}
+
+/* POST GRID */
+.posts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5px;background:rgba(184,137,42,.08);margin-bottom:2.5rem;}
+.post-card{background:var(--panel);padding:1.8rem;transition:background .3s,transform .3s;cursor:none;position:relative;overflow:hidden;}
+.post-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--rrg),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.post-card:hover::before{transform:scaleX(1);}
+.post-card:hover{background:var(--panel2);}
+.post-card h3{font-family:var(--font-display);font-size:1.3rem;letter-spacing:.02em;color:var(--white);margin:.6rem 0 .5rem;line-height:1.2;}
+.post-card p{font-size:.88rem;line-height:1.65;color:var(--text-muted);font-weight:300;}
+.post-card .read-more{margin-top:1rem;font-size:.65rem;}
+.post-card .post-emoji{font-size:1.8rem;display:block;margin-bottom:.4rem;}
+
+/* DEV LOG ENTRIES */
+.devlog-stream{margin-top:1rem;}
+.log-entry{border-left:2px solid rgba(0,92,45,.3);padding-left:1.5rem;padding-bottom:2.5rem;position:relative;transition:border-color .3s;}
+.log-entry::before{content:'';position:absolute;left:-5px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--rrg-glow);box-shadow:0 0 12px rgba(0,122,61,.5);}
+.log-entry:hover{border-color:var(--rrg-glow);}
+.log-entry:last-child{padding-bottom:0;}
+.log-date-badge{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.18em;color:var(--rrg-glow);text-transform:uppercase;background:rgba(0,61,31,.2);border:1px solid rgba(0,92,45,.3);padding:.25rem .7rem;display:inline-block;margin-bottom:.7rem;}
+.log-entry h4{font-family:var(--font-display);font-size:1.2rem;letter-spacing:.02em;color:var(--white);margin-bottom:.5rem;}
+.log-entry p{font-size:.9rem;line-height:1.7;color:var(--off-white);font-weight:300;margin-bottom:.7rem;}
+.log-mood{display:flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.1em;color:var(--text-muted);}
+.log-mood span{font-size:.9rem;}
+.log-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem;}
+.log-chip{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.1em;color:var(--text-muted);border:1px solid rgba(255,255,255,.07);padding:.2rem .5rem;text-transform:uppercase;}
+
+/* WRITE PANEL */
+.write-panel{background:var(--panel);border:1px solid rgba(0,92,45,.2);padding:2rem;margin-top:2rem;}
+.write-panel h3{font-family:var(--font-display);font-size:1.4rem;color:var(--white);margin-bottom:.5rem;letter-spacing:.03em;}
+.write-panel p{font-family:var(--font-mono);font-size:.68rem;color:var(--text-muted);letter-spacing:.08em;margin-bottom:1.2rem;}
+.write-input{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);color:var(--white);padding:.8rem 1rem;font-family:var(--font-serif);font-size:.95rem;outline:none;transition:border-color .3s;margin-bottom:.8rem;}
+.write-input:focus{border-color:rgba(0,92,45,.5);}
+.write-input.ta{min-height:100px;resize:none;}
+.mood-selector{display:flex;gap:.5rem;margin-bottom:.8rem;}
+.mood-btn{font-size:1.2rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:.4rem .6rem;cursor:none;transition:background .2s,transform .2s;border-radius:2px;}
+.mood-btn.selected,.mood-btn:hover{background:rgba(0,61,31,.3);border-color:var(--rrg);transform:scale(1.1);}
+.write-label{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;display:block;}
+.btn-log{width:100%;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;padding:.9rem;background:var(--rrg);color:var(--white);border:1px solid var(--rrg-bright);cursor:none;transition:background .3s,transform .2s,box-shadow .3s;margin-top:.8rem;}
+.btn-log:hover{background:var(--rrg-bright);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,92,45,.4);}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:6rem;display:flex;flex-direction:column;gap:2rem;}
+.sidebar-card{background:var(--panel);border:1px solid rgba(255,255,255,.05);padding:1.8rem;}
+.sidebar-card h3{font-family:var(--font-display);font-size:1.2rem;letter-spacing:.04em;color:var(--white);margin-bottom:1.2rem;padding-bottom:.7rem;border-bottom:1px solid rgba(184,137,42,.15);}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(184,137,42,.08);}
+.stat-box{background:var(--panel2);padding:1.1rem;text-align:center;}
+.stat-big{font-family:var(--font-display);font-size:2.2rem;color:var(--gold);line-height:1;}
+.stat-sm{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.15em;color:var(--text-muted);text-transform:uppercase;margin-top:.3rem;}
+
+/* STREAK */
+.streak-bar{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:1rem;}
+.streak-day{width:14px;height:14px;border-radius:2px;background:rgba(255,255,255,.05);transition:background .3s;cursor:none;}
+.streak-day.done{background:var(--rrg-glow);}
+.streak-day.today{background:var(--gold);box-shadow:0 0 8px rgba(184,137,42,.5);}
+.streak-day.miss{background:rgba(200,50,50,.2);}
+.streak-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;color:var(--text-muted);}
+.streak-flame{font-family:var(--font-display);font-size:2rem;color:var(--gold);}
+
+/* TOPICS */
+.topics-list{display:flex;flex-direction:column;gap:.6rem;}
+.topic-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.topic-name{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;color:var(--off-white);}
+.topic-count{font-family:var(--font-display);font-size:1.2rem;color:var(--gold);}
+
+/* GOAL TRACKER */
+.goal-list{display:flex;flex-direction:column;gap:.9rem;}
+.goal-item{}
+.goal-header{display:flex;justify-content:space-between;margin-bottom:.4rem;}
+.goal-name{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.08em;color:var(--off-white);}
+.goal-pct{font-family:var(--font-mono);font-size:.68rem;color:var(--rrg-glow);}
+.goal-bar-bg{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.goal-bar-fill{height:100%;border-radius:2px;transition:width 1.5s cubic-bezier(.22,1,.36,1);}
+
+/* QUOTE */
+.daily-quote{border-left:2px solid var(--gold);padding-left:1.2rem;}
+.daily-quote p{font-style:italic;font-size:1.05rem;line-height:1.7;color:var(--off-white);font-weight:300;}
+.daily-quote cite{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.12em;color:var(--text-muted);margin-top:.6rem;display:block;}
+
+/* PAGINATION */
+.pagination{display:flex;gap:.5rem;align-items:center;margin-top:2rem;}
+.page-btn{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.12em;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--text-muted);border:1px solid rgba(255,255,255,.08);cursor:none;transition:all .3s;text-decoration:none;}
+.page-btn.active,.page-btn:hover{background:var(--rrg);color:var(--white);border-color:var(--rrg);}
+
+/* FOOTER */
+footer{background:var(--black);border-top:1px solid rgba(184,137,42,.1);padding:2.5rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+.footer-logo{font-family:var(--font-display);font-size:1.4rem;letter-spacing:.1em;text-decoration:none;color:var(--white);}
+.footer-logo span{color:var(--gold);}
+.footer-copy{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.15em;color:var(--text-muted);text-transform:uppercase;}
+.footer-rr{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.15em;color:var(--rrg-glow);text-transform:uppercase;border:1px solid var(--rrg);padding:.3rem .8rem;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.1s;}.reveal-delay-2{transition-delay:.2s;}.reveal-delay-3{transition-delay:.3s;}
+
+/* SUCCESS TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--rrg-bright);color:var(--white);font-family:var(--font-mono);font-size:.75rem;letter-spacing:.1em;padding:1rem 1.8rem;border-left:3px solid var(--gold);z-index:500;transform:translateY(100px);opacity:0;transition:all .4s cubic-bezier(.22,1,.36,1);}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+  .blog-layout{grid-template-columns:1fr;padding:2rem;}
+  .sidebar{position:static;}
+  .featured-post{grid-template-columns:1fr;}
+  .featured-thumb{min-height:160px;}
+  .posts-grid{grid-template-columns:1fr;}
+  nav{padding:1.2rem 2rem;}.nav-links{display:none;}
+  .blog-hero{padding:7rem 2rem 3rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">FREMPAH<span>.</span>BRAND</a>
+  <ul class="nav-links">
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="blog.html" class="active">Dev Log</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="quicksite.html" style="color:var(--gold)">⚡ QuickSite</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  </ul>
+  <div class="nav-badge">📝 Blog Active</div>
+</nav>
+
+<!-- HERO -->
+<div class="blog-hero">
+  <div class="blog-hero-bg"></div>
+  <div class="blog-hero-grid"></div>
+  <div class="blog-hero-watermark">LOG</div>
+  <div class="blog-hero-content">
+    <div class="blog-eyebrow">FrempahBrand · Dev Log & Blog</div>
+    <h1 class="blog-title">THE<br><em>FIELD</em><br>NOTES</h1>
+    <p class="blog-subtitle">Daily logs, build journals, tech opinions, and dispatches from the road to world recognition.</p>
+    <div class="blog-filters" id="blogFilters">
+      <button class="filter-btn active" data-tag="all" onclick="filterPosts('all',this)">All Posts</button>
+      <button class="filter-btn" data-tag="devlog" onclick="filterPosts('devlog',this)">Dev Log</button>
+      <button class="filter-btn" data-tag="tutorial" onclick="filterPosts('tutorial',this)">Tutorial</button>
+      <button class="filter-btn" data-tag="opinion" onclick="filterPosts('opinion',this)">Opinion</button>
+      <button class="filter-btn" data-tag="milestone" onclick="filterPosts('milestone',this)">Milestones</button>
+      <button class="filter-btn" data-tag="career" onclick="filterPosts('career',this)">Career</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="blog-layout">
+
+  <!-- LEFT: POSTS AREA -->
+  <div class="posts-area">
+
+    <!-- FEATURED -->
+    <div class="section-label">Featured Post</div>
+    <div class="featured-post reveal" id="featuredPost">
+      <div class="featured-thumb">
+        🏗️
+        <div class="featured-label">⭐ Featured</div>
+      </div>
+      <div class="featured-body">
+        <div class="post-meta">
+          <span class="post-tag milestone">Milestone</span>
+          <span class="post-date">March 2025</span>
+          <span class="post-read-time">· 5 min read</span>
+        </div>
+        <h2>I Built My Portfolio. Now What? The FrempahBrand Manifesto.</h2>
+        <p>Months ago I pushed the first version of this site live. It had one image, three features, and a motto I wrote on a whim. Today, it has a name, a philosophy, and a direction. Here's what I learned building FrempahBrand and why "Range Won't Roll Us Over" is more than just a tagline.</p>
+        <a href="#" class="read-more">Read the Full Story</a>
+      </div>
+    </div>
+
+    <!-- POST GRID -->
+    <div class="section-label" style="margin-top:2.5rem">Recent Posts</div>
+    <div class="posts-grid" id="postsGrid">
+
+      <div class="post-card reveal" data-tag="devlog">
+        <span class="post-emoji">⚡</span>
+        <div class="post-meta"><span class="post-tag devlog">Dev Log</span><span class="post-date">Mar 18</span></div>
+        <h3>Day 47: CSS Grid Finally Clicked</h3>
+        <p>I've read a dozen CSS Grid tutorials. Today was the first time I built something with it without googling once. Here's what changed.</p>
+        <a href="#" class="read-more">Read</a>
+      </div>
+
+      <div class="post-card reveal reveal-delay-1" data-tag="career">
+        <span class="post-emoji">🎯</span>
+        <div class="post-meta"><span class="post-tag career">Career</span><span class="post-date">Mar 15</span></div>
+        <h3>How I'm Positioning FrempahBrand for Global Opportunities</h3>
+        <p>Ghana is not a limitation. It's a competitive advantage if you know how to frame it. My strategy for getting noticed worldwide.</p>
+        <a href="#" class="read-more">Read</a>
+      </div>
+
+      <div class="post-card reveal reveal-delay-1" data-tag="tutorial">
+        <span class="post-emoji">🎨</span>
+        <div class="post-meta"><span class="post-tag tutorial">Tutorial</span><span class="post-date">Mar 12</span></div>
+        <h3>Build a Luxury Dark UI with Pure CSS — No Frameworks</h3>
+        <p>Everything on FrempahBrand is hand-coded CSS. Here's how I create the dark, gold-accented aesthetic that people keep asking about.</p>
+        <a href="#" class="read-more">Read</a>
+      </div>
+
+      <div class="post-card reveal reveal-delay-2" data-tag="opinion">
+        <span class="post-emoji">💬</span>
+        <div class="post-meta"><span class="post-tag opinion">Opinion</span><span class="post-date">Mar 8</span></div>
+        <h3>Why Every Developer Needs a Brand, Not Just a LinkedIn</h3>
+        <p>Your LinkedIn is a resume. Your brand is a magnet. I chose the magnet. Here's why that decision already changed my trajectory.</p>
+        <a href="#" class="read-more">Read</a>
+      </div>
+
+      <div class="post-card reveal" data-tag="devlog">
+        <span class="post-emoji">🔧</span>
+        <div class="post-meta"><span class="post-tag devlog">Dev Log</span><span class="post-date">Mar 5</span></div>
+        <h3>Debugging at 2AM: A Story of Never Giving Up</h3>
+        <p>A semicolon cost me 3 hours. But I found it. That persistence is the job. This is what it actually feels like to level up.</p>
+        <a href="#" class="read-more">Read</a>
+      </div>
+
+      <div class="post-card reveal reveal-delay-1" data-tag="milestone">
+        <span class="post-emoji">🏆</span>
+        <div class="post-meta"><span class="post-tag milestone">Milestone</span><span class="post-date">Mar 1</span></div>
+        <h3>First Freelance Inquiry: Someone Wants to Pay Me</h3>
+        <p>It happened. A stranger found my portfolio and asked about my rates. I almost missed it because I didn't believe it was real.</p>
+        <a href="#" class="read-more">Read</a>
+      </div>
+
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+      <a href="#" class="page-btn active">1</a>
+      <a href="#" class="page-btn">2</a>
+      <a href="#" class="page-btn">3</a>
+      <a href="#" class="page-btn">→</a>
+    </div>
+
+    <!-- DAILY DEV LOG STREAM -->
+    <div style="margin-top:4rem;">
+      <div class="section-label">Daily Dev Log</div>
+      <div class="devlog-stream" id="devlogStream">
+
+        <div class="log-entry reveal">
+          <div class="log-date-badge">Today · March 21, 2025</div>
+          <h4>Rebuilt the blog page from scratch</h4>
+          <p>Spent the morning designing the blog layout. Went through 3 different grid approaches before landing on this one. The sticky sidebar is the move — it keeps context visible while you scroll. Also figured out the CSS-only filter system. No frameworks. Just me and CSS.</p>
+          <div class="log-mood"><span>😤</span> Mood: Deep focus. Barely noticed time passing.</div>
+          <div class="log-tags">
+            <span class="log-chip">CSS Grid</span><span class="log-chip">Layout</span><span class="log-chip">FrempahBrand</span>
+          </div>
+        </div>
+
+        <div class="log-entry reveal reveal-delay-1">
+          <div class="log-date-badge">Mar 20, 2025</div>
+          <h4>JavaScript closures — they finally make sense</h4>
+          <p>I've been avoiding closures for months. Today I forced myself to sit with them for 2 hours. Wrote 15 small examples. Made a diagram. Now I actually get it. The key for me was thinking of closures as a function that "remembers" where it was born.</p>
+          <div class="log-mood"><span>🔥</span> Mood: Breakthrough energy.</div>
+          <div class="log-tags">
+            <span class="log-chip">JavaScript</span><span class="log-chip">Closures</span><span class="log-chip">Learning</span>
+          </div>
+        </div>
+
+        <div class="log-entry reveal reveal-delay-2">
+          <div class="log-date-badge">Mar 19, 2025</div>
+          <h4>Rest day but still coded for 20 minutes</h4>
+          <p>Didn't plan to code today. But I had an idea for a CSS animation effect and had to try it. Sometimes the best sessions are the ones you didn't schedule. Consistency over intensity.</p>
+          <div class="log-mood"><span>😌</span> Mood: Relaxed and still shipping.</div>
+          <div class="log-tags">
+            <span class="log-chip">CSS Animation</span><span class="log-chip">Consistency</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WRITE A LOG ENTRY -->
+    <div class="write-panel reveal" style="margin-top:3rem;" id="writePanel">
+      <h3>Drop Today's Log</h3>
+      <p>What did you build, learn, or figure out today? Write it here.</p>
+      <label class="write-label">Entry Title</label>
+      <input class="write-input" id="logTitle" type="text" placeholder="What happened today?"/>
+      <label class="write-label">What I worked on</label>
+      <textarea class="write-input ta" id="logBody" placeholder="Describe what you built, learned, struggled with, or conquered..."></textarea>
+      <label class="write-label">Today's Mood</label>
+      <div class="mood-selector" id="moodSelector">
+        <button class="mood-btn" onclick="selectMood(this,'🔥')">🔥</button>
+        <button class="mood-btn" onclick="selectMood(this,'😤')">😤</button>
+        <button class="mood-btn" onclick="selectMood(this,'🚀')">🚀</button>
+        <button class="mood-btn" onclick="selectMood(this,'😅')">😅</button>
+        <button class="mood-btn" onclick="selectMood(this,'😌')">😌</button>
+        <button class="mood-btn" onclick="selectMood(this,'💀')">💀</button>
+      </div>
+      <label class="write-label">Tags (comma separated)</label>
+      <input class="write-input" id="logTags" type="text" placeholder="CSS, JavaScript, Debugging..."/>
+      <button class="btn-log" onclick="submitLog()">⬆ Commit to the Log</button>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- STATS -->
+    <div class="sidebar-card reveal">
+      <h3>📊 By the Numbers</h3>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-big" id="cnt-posts">9</div><div class="stat-sm">Posts</div></div>
+        <div class="stat-box"><div class="stat-big" id="cnt-streak">21</div><div class="stat-sm">Day Streak</div></div>
+        <div class="stat-box"><div class="stat-big">3</div><div class="stat-sm">Milestones</div></div>
+        <div class="stat-box"><div class="stat-big">∞</div><div class="stat-sm">Motivation</div></div>
+      </div>
+    </div>
+
+    <!-- STREAK -->
+    <div class="sidebar-card reveal reveal-delay-1">
+      <h3>🔥 Coding Streak</h3>
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <div class="streak-flame" id="streakNum">21</div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:.75rem;color:var(--white);">Days in a row</div>
+          <div class="streak-label">Keep the fire alive 🚗</div>
+        </div>
+      </div>
+      <div class="streak-bar" id="streakBar"></div>
+      <div class="streak-label">Last 28 days · Green = coded · Gold = today</div>
+    </div>
+
+    <!-- GOALS -->
+    <div class="sidebar-card reveal reveal-delay-2">
+      <h3>🎯 2025 Goals</h3>
+      <div class="goal-list">
+        <div class="goal-item">
+          <div class="goal-header"><span class="goal-name">Ship 5 projects</span><span class="goal-pct">40%</span></div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:0;background:var(--rrg-glow);" data-target="40"></div></div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-header"><span class="goal-name">Land first paid client</span><span class="goal-pct">70%</span></div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:0;background:var(--gold);" data-target="70"></div></div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-header"><span class="goal-name">100 blog posts</span><span class="goal-pct">9%</span></div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:0;background:var(--rrg-glow);" data-target="9"></div></div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-header"><span class="goal-name">Master React fully</span><span class="goal-pct">55%</span></div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:0;background:var(--gold);" data-target="55"></div></div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-header"><span class="goal-name">World recognition</span><span class="goal-pct">Starting...</span></div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:0;background:linear-gradient(to right,var(--rrg),var(--gold));" data-target="5"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOPICS -->
+    <div class="sidebar-card reveal reveal-delay-1">
+      <h3>🗂 Topics Covered</h3>
+      <div class="topics-list">
+        <div class="topic-row"><span class="topic-name">CSS / Design</span><span class="topic-count">12</span></div>
+        <div class="topic-row"><span class="topic-name">JavaScript</span><span class="topic-count">8</span></div>
+        <div class="topic-row"><span class="topic-name">Career & Brand</span><span class="topic-count">6</span></div>
+        <div class="topic-row"><span class="topic-name">React</span><span class="topic-count">4</span></div>
+        <div class="topic-row"><span class="topic-name">Milestones</span><span class="topic-count">3</span></div>
+        <div class="topic-row"><span class="topic-name">Tools & Workflow</span><span class="topic-count">3</span></div>
+      </div>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="sidebar-card reveal">
+      <h3>💭 This Week's Fuel</h3>
+      <div class="daily-quote">
+        <p>"You don't rise to the level of your goals. You fall to the level of your systems."</p>
+        <cite>— James Clear · Atomic Habits</cite>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="footer-logo">FREMPAH<span>.</span>BRAND</a>
+  <div class="footer-rr">" Range Won't Roll Us Over "</div>
+  <div class="footer-copy">© 2025 FrempahBrand · All Rights Reserved</div>
+</footer>
+
+<div class="toast" id="toast">✓ Log committed to the record</div>
+
+<script>
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function tick(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.15;ry+=(my-ry)*.15;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+
+// Reveal
+const revEls=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+revEls.forEach(r=>io.observe(r));
+
+// Build streak bar
+const bar=document.getElementById('streakBar');
+const pattern=[1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,'today'];
+pattern.forEach(d=>{
+  const el=document.createElement('div');
+  el.className='streak-day'+(d===1?' done':d==='today'?' today':d===0?' miss':'');
+  bar.appendChild(el);
+});
+
+// Goal bars animate on scroll
+const goalBars=document.querySelectorAll('.goal-bar-fill');
+const goalObs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.style.width=e.target.dataset.target+'%';goalObs.unobserve(e.target);}});
+},{threshold:.3});
+goalBars.forEach(b=>goalObs.observe(b));
+
+// Filter posts
+function filterPosts(tag,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.post-card').forEach(c=>{
+    const show=tag==='all'||c.dataset.tag===tag;
+    c.style.display=show?'':'none';
+    if(show){c.style.animation='none';c.offsetHeight;c.style.animation='fadeIn .4s both';}
+  });
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+}
+
+// Mood selection
+let selectedMood='🔥';
+function selectMood(btn,mood){
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');selectedMood=mood;
+}
+document.querySelector('.mood-btn').classList.add('selected');
+
+// Submit log
+let logCount=0;
+function submitLog(){
+  const title=document.getElementById('logTitle').value.trim();
+  const body=document.getElementById('logBody').value.trim();
+  const tags=document.getElementById('logTags').value.trim();
+  if(!title||!body){showToast('⚠ Add a title and description first');return;}
+  const stream=document.getElementById('devlogStream');
+  const entry=document.createElement('div');
+  entry.className='log-entry';
+  const today=new Date();
+  const dateStr=today.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const tagChips=tags?tags.split(',').map(t=>`<span class="log-chip">${t.trim()}</span>`).join(''):'';
+  entry.innerHTML=`
+    <div class="log-date-badge">Just Now · ${dateStr}</div>
+    <h4>${title}</h4>
+    <p>${body}</p>
+    <div class="log-mood"><span>${selectedMood}</span> Mood: New entry logged.</div>
+    ${tagChips?`<div class="log-tags">${tagChips}</div>`:''}
+  `;
+  entry.style.opacity='0';entry.style.transform='translateY(20px)';
+  stream.insertBefore(entry,stream.firstChild);
+  setTimeout(()=>{entry.style.transition='all .5s';entry.style.opacity='1';entry.style.transform='translateY(0)';},50);
+  document.getElementById('logTitle').value='';
+  document.getElementById('logBody').value='';
+  document.getElementById('logTags').value='';
+  logCount++;
+  document.getElementById('cnt-posts').textContent=9+logCount;
+  document.getElementById('cnt-streak').textContent=21+logCount;
+  showToast('✓ Log committed to the record');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// Filter function fix for inline style
+document.querySelectorAll('.post-card').forEach(c=>{c.style.display='';});
+</script>
+</body>
+</html>
